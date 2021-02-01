@@ -31,7 +31,7 @@ server.listen(port);
     app.post('/message', (req, res) => {
       const payload = req.body;
       pusher.trigger('chat', 'message', payload);
-      res.send(payload)
+      res.send('payload')
     });
 
     app.listen(app.get('PORT'), () => 
