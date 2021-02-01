@@ -1,16 +1,9 @@
 {
-  "posts":[
+  "users": [
     {
-      "id" : 0,
-      "title": "First post!",
-      "content" : "My first content!"
-    }
-  ],
-  "comments" : [
-    {
-      "id": 0,
-      "content": "Wow such content!",
-      "username": "zero_cool"
+      "id": "4102066483163667",
+      "name": "Enrike Hernandez",
+      "avatar": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=4102066483163667&height=50&width=50&ext=1614761656&hash=AeTq___G5O_EZQ2qn-Y"
     }
   ]
 }
