@@ -1,38 +1,41 @@
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router('db.json');
-const middlewares = jsonServer.defaults();
-const port = process.env.PORT || 3000;
 
+const Pusher = require('pusher');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+require('dotenv').config()
+
+const jsonServer = require("json-server");
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
+const middlewares = jsonServer.defaults();
+
+server.use(jsonServer.bodyParser);
 server.use(middlewares);
+
+const pusher = new Pusher({
+  appId: process.env.REACT_APP_PUSHER_ID,
+  key: process.env.REACT_APP_PUSHER_KEY,
+  secret: process.env.REACT_APP_PUSHER_SECRET,
+  cluster: process.env.REACT_APP_PUSHER_CLUSTER
+});
+// Custom middleware to access POST methids.
+// Can be customized for other HTTP method as well.
+server.use((req, res, next) => {
+  
+  if (req.method === "POST" && req.path === '/messages') {
+    // If the method is a POST echo back the name from request body
+    const payload = req.body;
+    pusher.trigger('chat', 'message', payload);
+    // res.json(payload);
+    next();
+  }
+  else
+    next();
+});
+
 server.use(router);
 
-server.listen(port);
-
-    const Pusher = require('pusher');
-    const express = require('express');
-    const bodyParser = require('body-parser');
-    const cors = require('cors');
-    require('dotenv').config()
-
-    const app = express();
-
-    app.use(cors());
-    app.use(bodyParser.urlencoded({extended: false}));
-    app.use(bodyParser.json());
-    const pusher = new Pusher({
-      appId: process.env.REACT_APP_PUSHER_ID,
-      key: process.env.REACT_APP_PUSHER_KEY,
-      secret: process.env.REACT_APP_PUSHER_SECRET,
-      cluster: process.env.REACT_APP_PUSHER_CLUSTER
-    });
-    app.set('PORT', 5000);
-
-    app.post('/message', (req, res) => {
-      const payload = req.body;
-      pusher.trigger('chat', 'message', payload);
-      res.send('payload')
-    });
-
-    app.listen(app.get('PORT'), () => 
-      console.log('Listening at ' + app.get('PORT')))
+server.listen(3000, () => {
+  console.log("JSON Server is running");
+});
