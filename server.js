@@ -24,6 +24,7 @@ server.use((req, res, next) => {
     // If the method is a POST echo back the name from request body
     const payload = req.body;
     pusher.trigger('chat', 'message', payload);
+    pusher.trigger('chat', 'notify', payload);
     // res.json(payload);
     next();
   }
