@@ -27,6 +27,13 @@ server.use((req, res, next) => {
     // res.json(payload);
     next();
   }
+  else if (req.method === "PATCH" && req.path.includes('/messages')) {
+    // If the method is a POST echo back the name from request body
+    const payload = req.body;
+    pusher.trigger('chat', 'notify', payload);
+    // res.json(payload);
+    next();
+  }
   else if (["POST","PATCH"].includes(req.method) && req.path.includes('/users')) {
     // If the method is a POST echo back the name from request body
     const payload = req.body;
