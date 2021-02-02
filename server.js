@@ -20,14 +20,14 @@ const pusher = new Pusher({
 // Can be customized for other HTTP method as well.
 server.use((req, res, next) => {
   
-  if (req.method === "POST" && req.path === '/messages') {
+  if (req.method === "POST" && req.path.includes('/messages')) {
     // If the method is a POST echo back the name from request body
     const payload = req.body;
     pusher.trigger('chat', 'message', payload);
     // res.json(payload);
     next();
   }
-  else if (["POST","PATCH"].includes(req.method) && req.path === '/users') {
+  else if (["POST","PATCH"].includes(req.method) && req.path.includes('/users')) {
     // If the method is a POST echo back the name from request body
     const payload = req.body;
     pusher.trigger('chat', 'user', payload);
