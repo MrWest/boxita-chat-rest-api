@@ -27,6 +27,12 @@ server.use((req, res, next) => {
     // res.json(payload);
     next();
   }
+  if (req.method === "POST" && req.path === '/users') {
+    // If the method is a POST echo back the name from request body
+    const payload = req.body;
+    pusher.trigger('chat', 'user', payload);
+    next();
+  }
   else
     next();
 });
