@@ -7,7 +7,9 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
-server.use(jsonServer.bodyParser);
+const bodyParser = require('body-parser');
+server.use(bodyParser.urlencoded({extended: false}));
+server.use(bodyParser);
 server.use(middlewares);
 
 const pusher = new Pusher({
