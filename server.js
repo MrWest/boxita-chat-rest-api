@@ -9,7 +9,7 @@ const middlewares = jsonServer.defaults();
 
 const bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({extended: false}));
-server.use(bodyParser);
+server.use(bodyParser.json());
 server.use(middlewares);
 
 const pusher = new Pusher({
