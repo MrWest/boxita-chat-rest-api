@@ -43,6 +43,13 @@ server.use((req, res, next) => {
     pusher.trigger('chat', 'user', payload);
     next();
   }
+  else if (["POST"].includes(req.method) && req.path.includes('/events')) {
+    // If the method is a POST echo back the name from request body
+    const payload = req.body;
+    pusher.trigger('chat', 'isTyping', payload);
+    res.json(payload);
+    // next();
+  }
   else
     next();
 });
